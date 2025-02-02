@@ -55,9 +55,9 @@ contract ProposalContract {
 //     // ****************** Execute Functions ***********************
 
 
-    function setOwner(address new_owner) external onlyOwner 
+    function setOwner(address newOwner) external onlyOwner 
     {
-        owner = new_owner;
+        owner = newOwner;
     }
 
     function create(string calldata _title, string calldata _description, uint256 _totalVoteToEnd) external onlyOwner 
@@ -70,7 +70,7 @@ contract ProposalContract {
     function vote(uint8 choice) external active newVoter(msg.sender)
     {
         Proposal storage proposal = proposalHistory[counter];
-        uint256 total_vote = proposal.approve + proposal.reject + proposal.pass;
+        uint256 totalVote = proposal.approve + proposal.reject + proposal.pass;
 
         votedAddresses.push(msg.sender);
 
@@ -85,7 +85,7 @@ contract ProposalContract {
             proposal.currentState = calculateCurrentState();
         }
 
-        if ((proposal.totalVoteToEnd - total_vote == 1) && (choice == 1 || choice == 2 || choice == 0)) {
+        if ((proposal.totalVoteToEnd - totalVote == 1) && (choice == 1 || choice == 2 || choice == 0)) {
             proposal.isActive = false;
             votedAddresses = [owner];
         }
